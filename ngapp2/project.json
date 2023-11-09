@@ -81,6 +81,53 @@
         "buildTarget": "ngapp2:build",
         "staticFilePath": "dist/ngapp2/browser"
       }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "ngapp2/.storybook",
+        "browserTarget": "ngapp2:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/ngapp2",
+        "configDir": "ngapp2/.storybook",
+        "browserTarget": "ngapp2:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c ngapp2/.storybook --url=http://localhost:4400"
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "ngapp2:build-storybook",
+        "staticFilePath": "dist/storybook/ngapp2"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "ngapp2:build-storybook:ci"
+        }
+      }
     }
   }
 }
